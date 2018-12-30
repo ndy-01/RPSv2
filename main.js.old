@@ -1,0 +1,146 @@
+var noOfGames = 5;
+var currentRound = 1;
+var roundPlayed = false;
+var gameStarted = false;
+var gameComplete = false;
+document.getElementById('play').addEventListener('click',function(){
+    initialiseGame(5);
+    playRound();
+});
+
+// Functions
+
+function initialiseGame(numb){
+    if (gameStarted == true){
+        return;
+    } else {
+        changeRoundCounter(numb);
+        
+        // Switches on the human choice buttons
+        var btnChoice = document.querySelectorAll('.btnChoiceDeactivated');
+        var btnPlay = document.getElementById('play');
+        for (var i = 0; i < btnChoice.length; i++){
+            btnChoice[i].className = 'btnChoice';
+        }
+        btnPlay.className = 'btnPlayRunning';
+        
+        // Start the game
+        alert("Play!");
+        gameStarted = true;
+        gameComplete = false;
+        roundPlayed = false;     
+        return;   
+    }
+}
+
+function playRound(){
+
+    // Get the human choice
+    var btnRock = document.getElementById('btnRock');
+    btnRock.addEventListener('click', function(){
+        checkResult("ROCK", getComputerChoice());
+    })
+
+    var btnScissors = document.getElementById('btnScissors');
+    btnScissors.addEventListener('click', function(){
+        checkResult("SCISSORS", getComputerChoice());
+    })
+
+    var btnPaper = document.getElementById('btnPaper');
+    btnPaper.addEventListener('click', function(){
+        checkResult("PAPER", getComputerChoice());
+    })
+}
+
+function checkResult(h,c){
+    const P = "PAPER";
+    const S = "SCISSORS";
+    const R = "ROCK";
+    var result;
+
+    if (gameComplete == true){
+        alert ("Game complete");
+    }
+
+    if (roundPlayed == false){
+        showComputerChoice(c);
+        roundPlayed = true; // Marks the round as being complete
+        // First check for a draw
+        if ((h == P && c == P) || (h == S && c == S) || (h == R && c == R)) {
+            result = 0;
+        } else if ((h == R && c == S) || (h == S && c == P) || (h == P && c == R)) {
+            // Human wins
+            result = 1;
+        } else {
+            // Computer wins
+            result = 2;
+        }
+        roundPlayed = false;
+    } else {
+        result = 3; // Round has already been played
+    }
+
+    sayWhoWon(result);
+    checkIfGameStillGoing();
+}
+
+function checkIfGameStillGoing(){
+    if (gameComplete == false){
+        if (currentRound < noOfGames){
+            currentRound++;
+            changeRoundCounter(noOfGames - currentRound + 1);
+        } else {
+            gameComplete = true;
+            var btnPlay = document.getElementById('btnPlay');
+            btnPlay.className = 'btnPlay';
+        }
+    }
+}
+
+function sayWhoWon(r){
+    switch (r){
+        case 0: //Draw
+            alert ("Draw");
+            break;
+        case 1: //Human wins
+            alert ("Human wins");
+            break;
+        case 2: //Computer wins
+            alert ("Computer wins");
+            break;
+        case 3: //Something fucked up
+            if (roundPlayed == true){
+                alert ("You've already played, dumbass");
+            };
+            break;
+    }
+}
+
+function showComputerChoice(choice){
+    if (roundPlayed == true){
+        return;
+    } else{
+        var displayComputerChoice = document.getElementById('computerChoice');
+        displayComputerChoice.textContent = choice;
+    }
+}
+
+function changeRoundCounter(round){
+    var roundCounter = document.getElementById('rounds');
+    roundCounter.innerHTML = round;
+}
+
+function getComputerChoice() {
+    let computerChoice;
+    let randomNumber = Math.random();
+
+    if (randomNumber < 0.33) {
+        return "ROCK";
+    } else if (randomNumber >= 0.33 && randomNumber < 0.66) {
+        return "PAPER";
+    } else {
+        return "SCISSORS";
+    }
+
+    return computerChoice;
+}

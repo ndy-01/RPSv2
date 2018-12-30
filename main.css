@@ -1,0 +1,45 @@
+body {
+    background-color: black;
+    color: white;
+}
+
+kbd {
+    font-size: 30px;
+    border-style: solid;
+    border-width: 1px;
+    border-radius: 10px;
+}
+
+#choices {
+    text-align: center;
+    margin-top: 50px;
+}
+
+#score {
+    font-size: 50px;
+    border-style: solid;
+    border-radius: 5px;
+    border-width: 3px;
+    text-align: center;
+}
+
+.btnChoice {
+    
+}
+
+.btnPlay {
+    padding: 20px;
+    margin: 5px;
+}
+
+.btnPlayRunning {
+    background-color: black;
+    padding: 20px;
+    margin: 5px;
+}
+
+.btnChoiceDeactivated {
+    background-color: black;
+    color: black;
+    border-color: black;
+}
